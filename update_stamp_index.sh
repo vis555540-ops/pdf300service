@@ -1,29 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+# 이 스크립트가 있는 폴더(= stamp-pages)로 이동
+cd "$(dirname "$0")"
+
+# 새 index.html 덮어쓰기
+cat << 'HTML' > index.html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta name="google-site-verification" content="nP7RR4X6tw05gK99oBXmq8AxVl6z2BGq6Z2hkRgrck4" />
-
-<script>
-    // User Language Detection & Redirection
-    (function() {
-        try {
-            var userLang = navigator.language || navigator.userLanguage; 
-            // 만약 한국어가 아니고(not KO) && 현재 페이지가 영어페이지가 아니라면
-            if (userLang && !userLang.includes('ko') && !window.location.href.includes('index_en.html')) {
-                // 세션 스토리지 체크 (이미 한 번 리다이렉트 했거나, 유저가 일부러 한국어 페이지를 클릭했으면 이동 안 함)
-                if (!sessionStorage.getItem('lang_redirected')) {
-                    sessionStorage.setItem('lang_redirected', 'true');
-                    window.location.href = 'index_en.html';
-                }
-            }
-        } catch(e) { console.log('Lang detection error', e); }
-    })();
-</script>
-
-
-
-
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="naver-site-verification" content="67407c86256b78a687de37b03a945eda2e4b64c7" />
@@ -236,14 +221,13 @@
         인감, 직인, 이름 도장을 A4 흰 종이에 찍고 사진만 올리면,<br />
         배경은 지우고 도장 부분만 투명 PNG로 만들어 줍니다.
       </p>
-      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:4px;">
-  <a href="welcome.html" class="btn-primary">도장 추출기 →</a>
-  <a href="stamp-ai-seal.html" class="btn-primary">도장 추출 (AI) →</a>
-  <a href="stamp-ai-sign.html" class="btn-primary">서명 추출 (AI) →</a>
-</div>
+      <a href="welcome.html" class="btn-primary">
+        <span>지금 시작하기</span>
+        <span>→</span>
+      </a>
       <div class="hero-badge">
-        <span style="font-size:11px; background:#fef3c7; color:#d97706; padding:2px 6px; border-radius:999px;"></span>
-        <span style="font-size:12px;">무료 사용 · 개인정보 보호 (서버 저장 X)</span>
+        <span style="font-size:11px; background:#fef3c7; color:#d97706; padding:2px 6px; border-radius:999px;">BETA</span>
+        <span style="font-size:12px;">계정 없이 무료 사용 · 서버 미저장</span>
       </div>
     </section>
 
@@ -317,28 +301,20 @@
   </main>
 
   <footer style="margin-top:60px; padding:28px 0; text-align:center; color:#888; border-top:1px solid #eee; font-size:13px;">
-    <p>&copy; 2025 도장 PNG 추출기 · <span style="background:#fef3c7; color:#d97706; padding:2px 6px; border-radius:4px; font-size:11px;"></span></p>
+    <p>&copy; 2025 도장 PNG 추출기 · <span style="background:#fef3c7; color:#d97706; padding:2px 6px; border-radius:4px; font-size:11px;">BETA</span></p>
     <div style="margin-top:10px;">
       <a href="index.html" style="margin:0 8px; color:#666; text-decoration:none;">홈</a>
       <a href="guide.html" style="margin:0 8px; color:#666; text-decoration:none;">도장 상식</a>
       <a href="work.html" style="margin:0 8px; color:#666; text-decoration:none;">사용법</a>
       <a href="board.html" style="margin:0 8px; color:#666; text-decoration:none;">문의하기</a>
-      <a href="terms.html" style="color:#666;text-decoration:none;margin:0 10px;">이용약관</a> | <a href="privacy.html"
- style="margin:0 8px; color:#666; text-decoration:none;">개인정보처리방침</a>
+      <a href="privacy.html" style="margin:0 8px; color:#666; text-decoration:none;">개인정보처리방침</a>
     </div>
   </footer>
-<section style="max-width: 800px; margin: 60px auto; text-align: left; padding: 20px; background-color:#f9f9f9; border-radius:10px;">
-    <h2 style="font-size: 1.5rem; margin-bottom: 20px;">온라인 도장/서명 만들기 팁</h2>
-    <p style="color: #555;"><strong>깨끗한 서명 만들기:</strong> A4 용지 같은 흰 종이에 네임펜으로 굵게 서명한 뒤, 그림자 없이 밝은 곳에서 촬영하세요.</p>
-    <p style="color: #555;"><strong>보안 안심:</strong> 이미지는 서버에 저장되지 않고 브라우저에서만 처리됩니다.</p>
-</section>
-
-<footer style="text-align: center; margin: 40px 0; font-size: 0.9rem; color: #777;">
-    <a href="terms.html" style="color:#666;text-decoration:none;margin:0 10px;">이용약관</a> | <a href="privacy.html"
- style="color: #555; text-decoration: none; margin: 0 10px;">개인정보처리방침</a> | 
-    <a href="https://playnstock.tistory.com/guestbook" target="_blank" style="color: #555; text-decoration: none; margin: 0 10px;">문의하기</a>
-    <br><br>
-    © 2025 Stamp Remover Tools
-</footer>
 </body>
 </html>
+HTML
+
+# git 커밋 & 푸시
+git add index.html update_stamp_index.sh
+git commit -m "feat: renew stamp index hero and layout"
+git push origin main
